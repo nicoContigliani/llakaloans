@@ -1,0 +1,59 @@
+
+TODO instalaciones obligatorias
+
+# Instalar dependencias necesarias
+npm install @clerk/nextjs @clerk/themes
+npm install zustand
+
+# Instalar tipos para Node.js (opcional pero recomendado)
+npm install --save-dev @types/node
+
+TODO .env.local
+# Clerk Authentication
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_Y29tcGxldGUtY2hpcG11bmstNjIuY2xlcmsuYWNjb3VudHMuZGV2JA
+CLERK_SECRET_KEY=sk_test_LwLkaKLnJe252gZsFqQYnUjqDzpIozOGeB7gdO5tGD
+
+# Clerk URLs
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+
+# App Configuration
+NEXTAUTH_URL=http://localhost:3000
+
+
+
+
+TODO error de hidratacion layout
+'use client';
+
+import { ClerkProviderWrapper } from '../clerk-modules/components/auth/ClerkProviderWrapper';
+import './globals.css';
+
+// Este componente se asegura de que Clerk solo se renderice después de la hidratación
+function ClientOnlyClerk({ children }: { children: React.ReactNode }) {
+  return (
+    <ClerkProviderWrapper>
+      {children}
+    </ClerkProviderWrapper>
+  );
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning className="antialiased">
+        <ClientOnlyClerk>
+          {children}
+        </ClientOnlyClerk>
+      </body>
+    </html>
+  );
+}
