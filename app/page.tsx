@@ -11,9 +11,9 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <header className={styles.header}>
+        {/* <header className={styles.header}>
           <AuthButtons />
-        </header>
+        </header> */}
         
         <section className={styles.intro}>
           <h1>
@@ -27,7 +27,7 @@ export default function Home() {
           </p>
           
           <div className={styles.ctas}>
-            {!isSignedIn && (
+            {/* {!isSignedIn && (
               <>
                 <a href="/sign-in" className={styles.primary}>
                   Iniciar Sesión
@@ -36,7 +36,7 @@ export default function Home() {
                   Registrarse
                 </a>
               </>
-            )}
+            )} */}
             {isSignedIn && (
               <a href="/dashboard" className={styles.primary}>
                 Ir al Dashboard

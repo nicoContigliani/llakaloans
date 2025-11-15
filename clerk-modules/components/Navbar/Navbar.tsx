@@ -70,7 +70,7 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Desktop Auth Section */}
-          <div className={styles.authSection}>
+          {/* <div className={styles.authSection}>
             {isSignedIn ? (
               <div 
                 className={styles.userButton} 
@@ -108,7 +108,7 @@ export const Navbar: React.FC = () => {
             ) : (
               <AuthButtons />
             )}
-          </div>
+          </div> */}
 
           {/* Mobile Menu Button */}
           <div 
