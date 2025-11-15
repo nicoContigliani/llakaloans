@@ -1,0 +1,11 @@
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://bvzjttzvsriwmdokdupp.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2emp0dHp2c3Jpd21kb2tkdXBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ2NDI5MDgsImV4cCI6MjA1MDIxODkwOH0.kPXD3qFn0TQehX9FuGKnS4pnurl6aiDkeMb4DUza_2Y
+NEXT_PUBLIC_BUCKET_NAME=llakaScriptBucket
+
+# Encryption (32 caracteres para AES-256)
+NEXT_PUBLIC_ENCRYPTION_KEY=QJmuOxMNmLpF28SNpb4*jZeMYgOr9Qgc
+
+npm install @supabase/supabase-js @zip.js/zip.js crypto-js react-hook-form
+npm install --save-dev @types/crypto-js
+
