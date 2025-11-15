@@ -1,0 +1,141 @@
+.container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+  }
+  
+  .welcomeCard {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .welcomeTitle {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 1rem;
+  }
+  
+  .welcomeText {
+    color: #718096;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .infoCard {
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid;
+  }
+  
+  .personalInfo {
+    background: #ebf8ff;
+    border-color: #bee3f8;
+  }
+  
+  .accountStatus {
+    background: #f0fff4;
+    border-color: #c6f6d5;
+  }
+  
+  .quickActions {
+    background: #faf5ff;
+    border-color: #e9d8fd;
+  }
+  
+  .cardTitle {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    font-size: 1.125rem;
+  }
+  
+  .personalInfo .cardTitle {
+    color: #2b6cb0;
+  }
+  
+  .accountStatus .cardTitle {
+    color: #276749;
+  }
+  
+  .quickActions .cardTitle {
+    color: #6b46c1;
+  }
+  
+  .infoText {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .personalInfo .infoText {
+    color: #2c5282;
+  }
+  
+  .accountStatus .infoText {
+    color: #22543d;
+  }
+  
+  .actionLink {
+    display: block;
+    color: #6b46c1;
+    font-weight: 500;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .actionLink:hover {
+    color: #553c9a;
+  }
+  
+  /* Estados de verificación */
+  .verified {
+    color: #38a169;
+  }
+  
+  .pending {
+    color: #d69e2e;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+    
+    .title {
+      font-size: 2rem;
+    }
+    
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .welcomeCard {
+      padding: 1.5rem;
+    }
+  }
