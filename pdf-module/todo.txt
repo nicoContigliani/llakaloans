@@ -1,0 +1,409 @@
+ Dependencias a instalar
+bash
+npm install @react-pdf/renderer html2canvas jspdf
+npm install -D @types/jspdf
+npm install pdf-lib
+npm install @react-pdf/renderer
+
+
+
+# 📧 SISTEMA DE GENERACIÓN Y ENVÍO DE PDFs
+
+## 🏗️ ESTRUCTURA DEL PROYECTO
+
+pdf-module/
+├── types/
+│   └── dynamic.ts              # Tipos TypeScript
+├── services/
+│   ├── PDFService.ts           # Servicio principal de PDF
+│   └── PDFEmailService.ts      # Servicio de email con Nodemailer
+├── templates/
+│   └── DynamicTemplate.ts      # Template universal para PDF
+└── index.ts                    # Exportaciones
+
+app/
+├── api/pdf/
+│   ├── generate/route.ts       # API: Generar PDF
+│   └── send/route.ts           # API: Generar y enviar PDF por email
+└── mail-pdf/
+    └── page.tsx                # Interfaz web para pruebas
+
+## 🚀 INSTALACIÓN Y CONFIGURACIÓN
+
+### 1. Dependencias necesarias
+```bash
+npm install pdf-lib nodemailer
+npm install -D @types/nodemailer
+2. Variables de entorno (.env.local)
+env
+# Configuración SMTP (Ejemplo para Gmail)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=tu-email@gmail.com
+SMTP_PASS=tu-app-password-de-16-digitos
+SMTP_FROM="Tu Sistema <tu-email@gmail.com>"
+3. Configurar Gmail (si usas Gmail)
+Activar verificación en 2 pasos
+
+Ir a https://myaccount.google.com/apppasswords
+
+Generar "App password" de 16 dígitos
+
+Usar ese password en SMTP_PASS
+
+📖 CÓMO USAR
+🎯 Desde el Frontend (React/Next.js)
+1. Generar PDF solamente
+tsx
+const generatePDF = async () => {
+  const response = await fetch('/api/pdf/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      data: {
+        // CUALQUIER estructura de datos
+        factura: {
+          numero: "FAC-001",
+          fecha: new Date().toISOString(),
+          cliente: { nombre: "Juan Pérez" },
+          items: [
+            { producto: "Laptop", precio: 1500, cantidad: 1 }
+          ],
+          total: 1500
+        }
+      },
+      config: {
+        styles: {
+          primaryColor: "#2563eb",
+          fontFamily: "Helvetica"
+        },
+        metadata: {
+          title: "Mi Factura PDF"
+        }
+      }
+    })
+  });
+
+  const result = await response.json();
+  if (result.success) {
+    // Descargar PDF
+    const link = document.createElement('a');
+    link.href = `data:application/pdf;base64,${result.pdf}`;
+    link.download = 'documento.pdf';
+    link.click();
+  }
+};
+2. Generar y enviar PDF por email
+tsx
+const sendPDFByEmail = async () => {
+  const response = await fetch('/api/pdf/send', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      pdfRequest: {
+        data: {
+          // Tus datos para el PDF
+          reporte: {
+            titulo: "Reporte Mensual",
+            ventas: 15000
+          }
+        },
+        config: {
+          // Configuración opcional del PDF
+          styles: { primaryColor: "#10b981" }
+        }
+      },
+      emailConfig: {
+        to: "cliente@email.com",
+        subject: "Tu documento adjunto",
+        body: "Hola, adjunto el documento solicitado.",
+        cc: "copia@empresa.com",
+        bcc: "archivo@empresa.com"
+      }
+    })
+  });
+
+  const result = await response.json();
+  if (result.success) {
+    alert('✅ PDF enviado correctamente!');
+  }
+};
+🌐 Desde otros servicios/APIs
+1. Usando cURL
+bash
+# Generar PDF
+curl -X POST http://localhost:3000/api/pdf/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": {
+      "documento": {
+        "titulo": "Mi PDF",
+        "contenido": "Este es un ejemplo"
+      }
+    }
+  }'
+
+# Generar y enviar por email
+curl -X POST http://localhost:3000/api/pdf/send \
+  -H "Content-Type: application/json" \
+  -d '{
+    "pdfRequest": {
+      "data": {
+        "factura": {
+          "numero": "TEST-001",
+          "total": 1000
+        }
+      }
+    },
+    "emailConfig": {
+      "to": "test@email.com",
+      "subject": "Test PDF",
+      "body": "Este es un test"
+    }
+  }'
+2. Desde Node.js/Express
+javascript
+const sendPDFFromBackend = async () => {
+  const pdfData = {
+    pdfRequest: {
+      data: {
+        orden: {
+          id: "ORD-123",
+          productos: [
+            { nombre: "Producto A", precio: 100 }
+          ]
+        }
+      }
+    },
+    emailConfig: {
+      to: "cliente@empresa.com",
+      subject: "Confirmación de orden",
+      body: "Gracias por tu compra!"
+    }
+  };
+
+  const response = await fetch('https://tu-app.com/api/pdf/send', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(pdfData)
+  });
+
+  return await response.json();
+};
+📊 ESTRUCTURA DE DATOS
+PDFGenerationRequest
+typescript
+{
+  data: { ... },  // ✅ CUALQUIER objeto JSON
+  config?: {
+    template?: 'invoice' | 'receipt' | 'report' | 'custom',
+    styles?: {
+      primaryColor?: string,    // Ej: "#2563eb"
+      secondaryColor?: string,  // Ej: "#64748b"
+      fontFamily?: string,      // Ej: "Helvetica"
+      fontSize?: number         // Ej: 10
+    },
+    metadata?: {
+      title?: string,           // Título del documento
+      author?: string,          // Autor
+      subject?: string          // Asunto
+    }
+  }
+}
+EmailConfig
+typescript
+{
+  to: string | string[],        // ✅ Obligatorio
+  subject: string,              // ✅ Obligatorio  
+  body: string,                 // ✅ Obligatorio
+  cc?: string | string[],       // ✅ Opcional
+  bcc?: string | string[]       // ✅ Opcional
+}
+🎨 EJEMPLOS DE ESTRUCTURAS DE DATOS
+Factura (Invoice)
+json
+{
+  "factura": {
+    "numero": "FAC-2024-001",
+    "fecha_emision": "2024-01-15",
+    "emisor": {
+      "nombre": "Mi Empresa S.A.",
+      "direccion": "Calle 123",
+      "telefono": "+54 11 1234-5678"
+    },
+    "cliente": {
+      "nombre": "Cliente S.R.L.",
+      "email": "cliente@empresa.com"
+    },
+    "items": [
+      {
+        "descripcion": "Servicio Web",
+        "cantidad": 1,
+        "precio_unitario": 5000,
+        "total": 5000
+      }
+    ],
+    "subtotal": 5000,
+    "iva": 1050,
+    "total": 6050,
+    "moneda": "ARS"
+  }
+}
+Recibo (Receipt)
+json
+{
+  "recibo": {
+    "numero": "REC-2024-001", 
+    "fecha": "2024-01-15",
+    "cliente": {
+      "nombre": "Juan Pérez",
+      "documento": "30.123.456"
+    },
+    "concepto": "Pago de servicios",
+    "monto": 25000,
+    "metodo_pago": "Transferencia",
+    "estado": "Pagado"
+  }
+}
+Reporte (Report)
+json
+{
+  "reporte": {
+    "titulo": "Ventas Mensuales",
+    "periodo": "Enero 2024", 
+    "resumen": {
+      "ventas_totales": 154320,
+      "cantidad_pedidos": 892,
+      "ticket_promedio": 173
+    },
+    "productos_destacados": [
+      {"producto": "Software", "ventas": 45230},
+      {"producto": "Cloud", "ventas": 38940}
+    ]
+  }
+}
+🔧 API ENDPOINTS
+POST /api/pdf/generate
+Descripción: Genera un PDF a partir de datos JSON
+
+Body: PDFGenerationRequest
+
+Response:
+
+json
+{
+  "success": true,
+  "pdf": "base64-string...",
+  "metadata": {
+    "generationTime": 150,
+    "fileSize": 2048
+  }
+}
+POST /api/pdf/send
+Descripción: Genera PDF y lo envía por email
+
+Body:
+
+json
+{
+  "pdfRequest": PDFGenerationRequest,
+  "emailConfig": EmailConfig
+}
+Response:
+
+json
+{
+  "success": true,
+  "pdfGenerated": true,
+  "emailSent": true,
+  "messageId": "message-id",
+  "metadata": {
+    "generationTime": 150,
+    "fileSize": 2048
+  }
+}
+GET /api/pdf/generate
+Descripción: Documentación y ejemplos del endpoint
+
+GET /api/pdf/send
+Descripción: Documentación y test de conexión SMTP
+
+🛠️ TROUBLESHOOTING
+❌ Error de conexión SMTP
+Verificar variables de entorno
+
+Probar con: GET /api/pdf/send
+
+Para Gmail: usar App Password, no contraseña normal
+
+❌ JSON inválido
+Usar JSON válido en el campo "content"
+
+Probar con los ejemplos predefinidos
+
+Validar en https://jsonlint.com/
+
+❌ PDF no se genera
+Verificar que los datos no estén vacíos
+
+Revisar la consola del navegador
+
+Probar con datos más simples
+
+❌ Email no llega
+Revisar carpeta de spam
+
+Verificar destinatario correcto
+
+Probar con email personal primero
+
+🚀 CARACTERÍSTICAS
+✅ Ventajas del sistema
+Totalmente dinámico: Acepta cualquier estructura JSON
+
+100% reutilizable: Mismo código para facturas, recibos, reportes, etc.
+
+Fácil integración: Simple API REST
+
+Configurable: Colores, fuentes, metadatos
+
+Con Nodemailer: Envío de emails integrado
+
+Responsive: Interfaz web incluida
+
+TypeScript: Tipado completo
+
+✅ Casos de uso
+Facturas automáticas
+
+Reportes periódicos
+
+Recibos de pago
+
+Certificados
+
+Contratos
+
+Presupuestos
+
+Cualquier documento personalizado
+
+📞 SOPORTE
+Para probar:
+Ir a: http://localhost:3000/mail-pdf
+
+Usar los ejemplos predefinidos
+
+Configurar variables de entorno SMTP
+
+¡Listo!
+
+Para integrar:
+Usar los endpoints API desde tu frontend/backend
+
+Seguir las estructuras de datos mostradas
+
+Personalizar según necesidades
+
+
+http://localhost:3000/api/pdf/test-connection

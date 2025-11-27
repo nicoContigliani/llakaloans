@@ -1,0 +1,681 @@
+.container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.header {
+  padding: 24px;
+  border-bottom: 1px solid #f1f5f9;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+}
+
+.searchBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  padding: 12px 16px;
+  padding-right: 40px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 300px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+.searchInput:focus {
+  outline: none;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.clearSearch {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+}
+
+.clearSearch:hover {
+  color: #ef4444;
+}
+
+.filterSection {
+  margin-top: 16px;
+}
+
+.filterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.filterToggle {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.filterToggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.filterBadge {
+  background: #ef4444;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.clearAllButton {
+  background: rgba(239, 68, 68, 0.8);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.clearAllButton:hover {
+  background: #ef4444;
+}
+
+.filterContainer {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 12px;
+}
+
+.filterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterGroup label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filterSelect,
+.filterInput {
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1e293b;
+}
+
+.filterSelect:focus,
+.filterInput:focus {
+  outline: none;
+  border-color: white;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.filterActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.applyButton,
+.clearButton,
+.retryButton {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.applyButton {
+  background: #10b981;
+  color: white;
+}
+
+.applyButton:hover {
+  background: #059669;
+}
+
+.clearButton {
+  background: #6b7280;
+  color: white;
+}
+
+.clearButton:hover {
+  background: #4b5563;
+}
+
+.retryButton {
+  background: #3b82f6;
+  color: white;
+}
+
+.retryButton:hover {
+  background: #2563eb;
+}
+
+.summaryContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  padding: 24px;
+  background: #f8fafc;
+}
+
+.summaryCard {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #e2e8f0;
+}
+
+.summaryCard.total {
+  border-left-color: #3b82f6;
+}
+
+.summaryCard.approved {
+  border-left-color: #10b981;
+}
+
+.summaryCard.pending {
+  border-left-color: #f59e0b;
+}
+
+.summaryCard.refunded {
+  border-left-color: #8b5cf6;
+}
+
+.summaryIcon {
+  font-size: 24px;
+}
+
+.summaryContent h3 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.amount {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.tableContainer {
+  padding: 0;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #64748b;
+  font-size: 16px;
+  gap: 12px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e2e8f0;
+  border-top: 3px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th {
+  background: #f8fafc;
+  padding: 16px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 16px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: top;
+}
+
+.expandColumn {
+  width: 40px;
+}
+
+.expandCell {
+  text-align: center;
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #64748b;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.expandButton:hover {
+  background: #f1f5f9;
+  color: #374151;
+}
+
+.tableRow {
+  transition: background-color 0.2s;
+}
+
+.tableRow:hover {
+  background: #f8fafc;
+}
+
+.tableRow.expanded {
+  background: #f0f9ff;
+  border-bottom: none;
+}
+
+.idCell {
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.payerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.payerEmail {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.payerName {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.amountWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.amountValue {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.currency {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.status.approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status.rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status.refunded {
+  background: #f3e8ff;
+  color: #7c3aed;
+}
+
+.status.in_process {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status.cancelled {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.methodCell {
+  text-align: center;
+}
+
+.methodBadge {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detailsRow {
+  background: #f8fafc;
+}
+
+.detailsRow td {
+  padding: 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.detailsContainer {
+  padding: 24px;
+  background: #f8fafc;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.detailSection {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.detailSection h4 {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  color: #374151;
+  font-weight: 600;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 8px;
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 16px;
+}
+
+.detailLabel {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+.detailValue {
+  font-size: 13px;
+  color: #1e293b;
+  font-weight: 500;
+  text-align: right;
+  word-break: break-word;
+}
+
+.sortButton {
+  background: none;
+  border: none;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sortButton:hover {
+  background: #e2e8f0;
+}
+
+.sortIndicator {
+  font-size: 12px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.paginationInfo {
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.paginationControls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pageButton {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.2s;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.pageButton:hover:not(:disabled) {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.pageButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageButton.activePage {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  color: #64748b;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.emptyState h3 {
+  margin: 0 0 8px 0;
+  color: #374151;
+  font-size: 18px;
+}
+
+.emptyState p {
+  margin: 0 0 20px 0;
+  font-size: 14px;
+}
+
+.errorContainer {
+  text-align: center;
+  padding: 40px 20px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  margin: 20px;
+}
+
+.errorContainer h3 {
+  margin: 0 0 8px 0;
+  color: #dc2626;
+}
+
+.errorContainer p {
+  margin: 0 0 16px 0;
+  color: #7f1d1d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .headerTop {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .searchInput {
+    width: 100%;
+  }
+  
+  .filterGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .summaryContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .paginationControls {
+    justify-content: center;
+  }
+  
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .detailItem {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+  
+  .detailLabel {
+    min-width: auto;
+  }
+  
+  .detailValue {
+    text-align: left;
+  }
+}

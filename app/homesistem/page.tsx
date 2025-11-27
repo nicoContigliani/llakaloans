@@ -29,7 +29,7 @@ export default function Home() {
             <h1 className={styles.title}>Dashboard</h1>
             <AuthButtons />
           </header>
-          
+
           {/* Main Content */}
           <main className="max-w-6xl mx-auto">
             {/* Welcome Card */}
@@ -38,11 +38,11 @@ export default function Home() {
                 ¡Hola, {user?.firstName} {user?.lastName}! 👋
               </h2>
               <p className={styles.welcomeText}>
-                Bienvenido a la plataforma de tu empresa. Gestiona tus proyectos, 
-                colabora con tu equipo y accede a todas las herramientas necesarias 
+                Bienvenido a la plataforma de tu empresa. Gestiona tus proyectos,
+                colabora con tu equipo y accede a todas las herramientas necesarias
                 para tu trabajo.
               </p>
-              
+
               {/* Info Grid */}
               <div className={styles.grid}>
                 {/* Información Personal */}
@@ -55,42 +55,44 @@ export default function Home() {
                     <strong>Usuario ID:</strong> {user?.id}
                   </p>
                 </div>
-                
+
                 {/* Estado de Cuenta */}
                 <div className={`${styles.infoCard} ${styles.accountStatus}`}>
                   <h3 className={styles.cardTitle}>Estado de Cuenta</h3>
-                  <p className={styles.infoText}>
-                    <strong>Verificación:</strong> {getVerificationStatus(user?.emailAddresses[0]?.verification?.status)}
-                  </p>
+                  {/* <p className={styles.infoText}>
+                    {
+                      user && <strong>Verificación:</strong> {getVerificationStatus(user?.emailAddresses[0]?.verification?.status)}
+                   }
+                  </p> */}
                   <p className={styles.infoText}>
                     <strong>Miembro desde:</strong> {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('es-ES') : 'N/A'}
                   </p>
                 </div>
-                
+
                 {/* Acciones Rápidas */}
                 <div className={`${styles.infoCard} ${styles.quickActions}`}>
                   <h3 className={styles.cardTitle}>Acciones Rápidas</h3>
                   <div className="space-y-2">
-                    <Link 
-                      href="/user-profile" 
+                    <Link
+                      href="/user-profile"
                       className={styles.actionLink}
                     >
                       Editar Perfil
                     </Link>
-                    <Link 
-                      href="/projects" 
+                    <Link
+                      href="/projects"
                       className={styles.actionLink}
                     >
                       Ver Proyectos
                     </Link>
-                    <Link 
-                      href="/settings" 
+                    <Link
+                      href="/settings"
                       className={styles.actionLink}
                     >
                       Configuración
                     </Link>
-                    <Link 
-                      href="/help" 
+                    <Link
+                      href="/help"
                       className={styles.actionLink}
                     >
                       Centro de Ayuda
@@ -104,15 +106,15 @@ export default function Home() {
             <div className={styles.grid}>
               {/* Stats Card */}
               <div className={styles.welcomeCard}>
-                <h3 className={styles.cardTitle} style={{color: '#2d3748'}}>Resumen de Actividad</h3>
+                <h3 className={styles.cardTitle} style={{ color: '#2d3748' }}>Resumen de Actividad</h3>
                 <div className="space-y-3">
-                  <p className={styles.infoText} style={{color: '#4a5568'}}>
+                  <p className={styles.infoText} style={{ color: '#4a5568' }}>
                     <strong>Proyectos activos:</strong> 3
                   </p>
-                  <p className={styles.infoText} style={{color: '#4a5568'}}>
+                  <p className={styles.infoText} style={{ color: '#4a5568' }}>
                     <strong>Tareas pendientes:</strong> 12
                   </p>
-                  <p className={styles.infoText} style={{color: '#4a5568'}}>
+                  <p className={styles.infoText} style={{ color: '#4a5568' }}>
                     <strong>Mensajes sin leer:</strong> 5
                   </p>
                 </div>
@@ -120,7 +122,7 @@ export default function Home() {
 
               {/* Quick Links */}
               <div className={styles.welcomeCard}>
-                <h3 className={styles.cardTitle} style={{color: '#2d3748'}}>Enlaces Rápidos</h3>
+                <h3 className={styles.cardTitle} style={{ color: '#2d3748' }}>Enlaces Rápidos</h3>
                 <div className="space-y-2">
                   <Link href="/documents" className={styles.actionLink}>
                     Documentos Compartidos

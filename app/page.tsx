@@ -1,7 +1,5 @@
-// page.tsx actualizado
 'use client';
 
-import { AuthButtons } from '../clerk-modules/components/auth/AuthButtons';
 import { useAuth } from '../clerk-modules/utils/auth-utils';
 import styles from './page.module.css';
 
@@ -11,54 +9,86 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        {/* <header className={styles.header}>
-          <AuthButtons />
-        </header> */}
-        
-        <section className={styles.intro}>
-          <h1>
-            {user ? `Bienvenido, ${user.firstName}` : 'Bienvenido a Olympus'}
-          </h1>
-          <p>
-            {user 
-              ? 'Tu sesión está activa y puedes acceder a todas las funciones divinas.' 
-              : 'Inicia sesión para descubrir el poder de los dioses en nuestra plataforma.'
-            }
-          </p>
-          
-          <div className={styles.ctas}>
-            {/* {!isSignedIn && (
-              <>
-                <a href="/sign-in" className={styles.primary}>
-                  Iniciar Sesión
-                </a>
-                <a href="/sign-up" className={styles.secondary}>
-                  Registrarse
-                </a>
-              </>
-            )} */}
-            {isSignedIn && (
-              <a href="/dashboard" className={styles.primary}>
-                Ir al Dashboard
-              </a>
-            )}
+        <section className={styles.hero}>
+          <div className={styles.heroContent}>
+            <h1 className={styles.title}>
+              {user 
+                ? `¡Bienvenido de vuelta, ${user.firstName}!` 
+                : 'Financiamiento Divino para tu Proyecto'
+              }
+            </h1>
+            
+            <p className={styles.subtitle}>
+              {user 
+                ? 'Tu sesión está activa y puedes gestionar tus préstamos.' 
+                : 'Obtén el préstamo que necesitas con tasas divinas y aprobación inmediata.'
+              }
+            </p>
+            
+            <div className={styles.ctas}>
+              {!isSignedIn ? (
+                <div className={styles.authButtons}>
+                  <a href="/sign-in" className={styles.primary}>
+                    Solicitar Préstamo
+                  </a>
+                  <a href="/sign-up" className={styles.secondary}>
+                    Simular Crédito
+                  </a>
+                </div>
+              ) : (
+                <div className={styles.dashboardActions}>
+                  <a href="/dashboard" className={styles.primary}>
+                    Mi Panel de Control
+                  </a>
+                  <a href="/loans" className={styles.secondary}>
+                    Ver Mis Préstamos
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
-        <div className={styles.features}>
-          <div className={styles.feature}>
-            <h3>Seguridad Divina</h3>
-            <p>Protegido con la fuerza de los dioses olímpicos</p>
+        <section className={styles.benefits}>
+          <h2 className={styles.benefitsTitle}>Beneficios Exclusivos</h2>
+          <div className={styles.features}>
+            <div className={styles.feature}>
+              <div className={styles.featureIcon}>⚡</div>
+              <h3>Aprobación Inmediata</h3>
+              <p>Respuesta en minutos con nuestro sistema divino</p>
+            </div>
+            <div className={styles.feature}>
+              <div className={styles.featureIcon}>🛡️</div>
+              <h3>Seguridad Garantizada</h3>
+              <p>Tus datos protegidos con tecnología olímpica</p>
+            </div>
+            <div className={styles.feature}>
+              <div className={styles.featureIcon}>💎</div>
+              <h3>Tasas Preferenciales</h3>
+              <p>Las mejores condiciones del mercado mitológico</p>
+            </div>
+            <div className={styles.feature}>
+              <div className={styles.featureIcon}>📱</div>
+              <h3>Gestión Digital</h3>
+              <p>Controla todo desde tu dispositivo, sin trámites</p>
+            </div>
           </div>
-          <div className={styles.feature}>
-            <h3>Arquitectura Eterna</h3>
-            <p>Diseñado como los templos de la antigua Grecia</p>
+        </section>
+
+        <section className={styles.stats}>
+          <div className={styles.stat}>
+            <span className={styles.statNumber}>24h</span>
+            <span className={styles.statLabel}>Desembolso</span>
           </div>
-          <div className={styles.feature}>
-            <h3>Rendimiento Olímpico</h3>
-            <p>Velocidad y elegancia en cada interacción</p>
+          <div className={styles.stat}>
+            <span className={styles.statNumber}>99%</span>
+            <span className={styles.statLabel}>Aprobación</span>
           </div>
-        </div>
+          <div className={styles.stat}>
+            <span className={styles.statNumber}>+10k</span>
+            <span className={styles.statLabel}>Clientes</span>
+          </div>
+        </section>
       </main>
     </div>
   );

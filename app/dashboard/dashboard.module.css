@@ -1,0 +1,809 @@
+/* dashboard.module.css - Mejorado para mobile */
+
+.dashboard {
+  --marble-white: #fefefe;
+  --ivory: #f8f4f0;
+  --pearl-gray: #f0f0f0;
+  --royal-blue: #1e40af;
+  --gold: #d4af37;
+  --terracotta: #e2725b;
+  --olive: #8a9a5b;
+  --imperial-purple: #5d4e75;
+  --onyx: #1a1a1a;
+
+  --text-primary: var(--onyx);
+  --text-secondary: #666;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  min-height: 100vh;
+  font-family: var(--font-geist-sans);
+  background: white;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 0 0.5rem;
+}
+
+.headerContent h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.headerContent p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  margin: 0.25rem 0 0 0;
+}
+
+.main {
+  width: 100%;
+}
+
+/* Welcome Card */
+.welcomeCard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.welcomeHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.welcomeText h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.welcomeText p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Botones */
+.primaryButton {
+  background: linear-gradient(135deg, var(--royal-blue) 0%, var(--imperial-purple) 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px rgba(30, 64, 175, 0.2);
+  width: 100%;
+  text-align: center;
+}
+
+.primaryButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(30, 64, 175, 0.3);
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.statCard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.statCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+  color: var(--royal-blue);
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 0.125rem;
+}
+
+.statDescription {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* Info Grid */
+.infoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.infoCard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.infoCard h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem 0;
+}
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.infoItem {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.infoItem strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Quick Actions */
+.quickActions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.actionButton {
+  background: white;
+  border: 1px solid #d1d5db;
+  color: var(--text-primary);
+  padding: 0.75rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  text-align: center;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+.actionButton:hover {
+  background: #f9fafb;
+  border-color: var(--royal-blue);
+  color: var(--royal-blue);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Loans Section */
+.loansSection {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.sectionHeader h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.viewAll {
+  color: var(--royal-blue);
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  align-self: flex-start;
+}
+
+.viewAll:hover {
+  color: var(--imperial-purple);
+}
+
+/* Table */
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.table th {
+  text-align: left;
+  padding: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  border-bottom: 2px solid #e5e7eb;
+  background: #f9fafb;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover {
+  background: #f9fafb;
+}
+
+/* Status Badges */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.statusActive {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.statusPaid {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.statusPending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Action Buttons */
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.actionLink {
+  color: var(--royal-blue);
+  font-weight: 500;
+  font-size: 0.7rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.actionLink:hover {
+  color: var(--imperial-purple);
+  text-decoration: underline;
+}
+
+.actionLink.success {
+  color: var(--success);
+}
+
+.actionLink.success:hover {
+  color: #059669;
+}
+
+/* Mobile First - Base styles are for mobile */
+
+/* Tablet */
+@media (min-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding: 0;
+  }
+
+  .headerContent h1 {
+    font-size: 2rem;
+  }
+
+  .headerContent p {
+    font-size: 1.125rem;
+  }
+
+  .welcomeCard {
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+  }
+
+  .welcomeHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+  }
+
+  .welcomeText h2 {
+    font-size: 1.75rem;
+  }
+
+  .primaryButton {
+    width: auto;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .statCard {
+    padding: 1.5rem;
+    border-radius: 12px;
+    min-height: 120px;
+  }
+
+  .statValue {
+    font-size: 2rem;
+  }
+
+  .statLabel {
+    font-size: 0.875rem;
+  }
+
+  .infoGrid {
+    grid-template-columns: repeat(2, 1fr);
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .infoCard {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .quickActions {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+
+  .actionButton {
+    padding: 0.75rem;
+    font-size: 0.75rem;
+    min-height: auto;
+  }
+
+  .loansSection {
+    padding: 2rem;
+    border-radius: 16px;
+  }
+
+  .sectionHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.5rem;
+  }
+
+  .table {
+    min-width: auto;
+  }
+
+  .table th,
+  .table td {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .actionButtons {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .actionLink {
+    font-size: 0.75rem;
+  }
+}
+
+/* Table Container */
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.table th {
+  text-align: left;
+  padding: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  border-bottom: 2px solid #e5e7eb;
+  background: #f9fafb;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover {
+  background: #f9fafb;
+}
+
+/* Amount Cell */
+.amountCell {
+  font-weight: 600;
+  color: var(--royal-blue);
+}
+
+/* Status Badges */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.statusActive {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.statusPaid {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.statusPending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Action Buttons */
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.actionLink {
+  color: var(--royal-blue);
+  font-weight: 500;
+  font-size: 0.7rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.actionLink:hover {
+  color: var(--imperial-purple);
+  text-decoration: underline;
+}
+
+.actionLink.success {
+  color: var(--success);
+}
+
+.actionLink.success:hover {
+  color: #059669;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+
+  .table th,
+  .table td {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .actionButtons {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .actionLink {
+    font-size: 0.75rem;
+  }
+
+  .statusBadge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .table {
+    min-width: 800px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .container {
+    padding: 2rem;
+    max-width: 1400px;
+  }
+
+  .headerContent h1 {
+    font-size: 2.5rem;
+  }
+
+  .welcomeCard {
+    padding: 2.5rem;
+  }
+
+  .welcomeText h2 {
+    font-size: 1.875rem;
+  }
+
+  .statsGrid {
+    gap: 2rem;
+  }
+
+  .statValue {
+    font-size: 2.25rem;
+  }
+
+  .infoGrid {
+    gap: 2rem;
+  }
+
+  .quickActions {
+    gap: 1rem;
+  }
+
+  .actionButton {
+    font-size: 0.875rem;
+    padding: 0.875rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 360px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .headerContent h1 {
+    font-size: 1.5rem;
+  }
+
+  .headerContent p {
+    font-size: 0.9rem;
+  }
+
+  .welcomeCard {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .welcomeText h2 {
+    font-size: 1.25rem;
+  }
+
+  .welcomeText p {
+    font-size: 0.9rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .statCard {
+    padding: 0.875rem;
+    min-height: 80px;
+  }
+
+  .statValue {
+    font-size: 1.25rem;
+  }
+
+  .statLabel {
+    font-size: 0.7rem;
+  }
+
+  .statDescription {
+    font-size: 0.65rem;
+  }
+
+  .infoCard {
+    padding: 1rem;
+  }
+
+  .infoCard h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .infoItem {
+    font-size: 0.8rem;
+  }
+
+  .quickActions {
+    grid-template-columns: 1fr;
+  }
+
+  .actionButton {
+    min-height: 40px;
+    font-size: 0.7rem;
+  }
+
+  .loansSection {
+    padding: 1.25rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.125rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .statusBadge {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  .actionLink {
+    font-size: 0.65rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+
+  .statCard:hover,
+  .actionButton:hover,
+  .primaryButton:hover {
+    transform: none;
+  }
+
+  .actionLink:hover {
+    text-decoration: none;
+  }
+}

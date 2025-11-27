@@ -1,0 +1,18 @@
+sript para roles y de más 
+node organization-module/script/init-organization.js
+
+#Agregar script en package.json
+{
+  "scripts": {
+    "init-org": "node -r dotenv/config organization-module/scripts/init-organization.js",
+    "dev-with-org": "npm run init-org && next dev"
+  }
+}
+
+#Instalar dotenv si no lo tienes
+npm install dotenv
+
+
+npm install @clerk/nextjs @clerk/backend
+
+node organization-module/script/check-roles.js.js

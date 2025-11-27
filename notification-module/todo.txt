@@ -1,0 +1,47 @@
+SMTP_HOST=your-smtp-host
+SMTP_PORT=587
+SMTP_USER=your-smtp-user
+SMTP_PASS=your-smtp-password
+SMTP_FROM=noreply@yourapp.com
+
+# MongoDB (ya deberías tenerlo)
+MONGODB_URI=your-mongodb-uri
+
+
+npm install nodemailer @types/nodemailer
+npm install react-email @react-email/components
+npx create-email@latest
+
+
+npm install mongoose
+npm install --save-dev typescript @types/node ts-node
+
+npm install nodemailer
+npm install --save-dev @types/nodemailer
+
+npm install -D @types/node
+npm i --save-dev @types/node
+
+npm install -D dotenv
+
+
+Agrega esto a tu package.json:
+
+
+{
+  "scripts": {
+        "db:indexes": "ts-node --project tsconfig.scripts.json notification-module/scripts/createIndexes.ts",
+    "db:test": "ts-node --project tsconfig.scripts.json notification-module/scripts/testConnection.ts"
+  }
+}
+
+
+Para probar:
+Asegúrate que MongoDB esté corriendo:
+
+bash
+# Si usas MongoDB local
+mongod
+
+# O si usas Docker
+docker run -d -p 27017:27017 --name mongodb mongo:latest

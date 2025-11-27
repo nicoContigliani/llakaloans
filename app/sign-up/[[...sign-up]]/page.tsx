@@ -8,10 +8,11 @@ import { useRouter } from 'next/navigation';
 export default function SignUpPage() {
   const { user, isLoaded } = useAuth();
   const router = useRouter();
+  const urlRedirect = process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL!;
 
   useEffect(() => {
     if (isLoaded && user) {
-      router.push('/dashboard');
+      router.push(`${urlRedirect}`);
     }
   }, [user, isLoaded, router]);
 

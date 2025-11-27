@@ -52,7 +52,7 @@ export const Navbar: React.FC = () => {
               <div className={styles.logoDot} />
             </div>
             <span className={`${styles.logoText} ${isScrolled ? styles.logoTextDark : styles.logoTextLight}`}>
-              OLYMPUS
+              LlakaLoans
             </span>
           </div>
 
@@ -69,48 +69,7 @@ export const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* Desktop Auth Section */}
-          {/* <div className={styles.authSection}>
-            {isSignedIn ? (
-              <div 
-                className={styles.userButton} 
-                onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-              >
-                <div className={styles.userAvatar}>
-                  {getUserInitial()}
-                </div>
-                <div className={styles.userInfo}>
-                  <span className={styles.userName}>
-                    {user?.firstName || 'Usuario'}
-                  </span>
-                  <span className={styles.userEmail}>
-                    {user?.emailAddresses?.[0]?.emailAddress}
-                  </span>
-                </div>
-                
-                {isUserDropdownOpen && (
-                  <div className={styles.userDropdown}>
-                    <div className={styles.userDropdownHeader}>
-                      <div className={styles.userDropdownTitle}>Sesión activa</div>
-                      <div className={styles.userDropdownEmail}>
-                        {user?.emailAddresses?.[0]?.emailAddress}
-                      </div>
-                    </div>
-                    <button 
-                      className={styles.userDropdownItem}
-                      onClick={handleSignOut}
-                    >
-                      Cerrar sesión
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <AuthButtons />
-            )}
-          </div> */}
-
-          {/* Mobile Menu Button */}
+        
           <div 
             className={`${styles.mobileMenuButton} ${isScrolled ? styles.mobileMenuButtonDark : styles.mobileMenuButtonLight}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

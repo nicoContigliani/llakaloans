@@ -1,0 +1,2 @@
+cuando ingresa por primera vez, debe mostrar rotulo de llakascript(crear)
+crear empresa Botón -> esto muestra el dashboar de Owner

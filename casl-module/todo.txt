@@ -1,0 +1,44 @@
+📦 Dependencias necesarias
+bash
+npm install @casl/ability @casl/react
+npm install -D @types/casl__ability
+npm install @casl/ability @casl/react
+
+
+
+// En cualquier componente
+import { Can, usePermissions } from '../casl-module';
+
+// Ejemplo de uso
+const MyComponent = ({ empresaId }) => {
+  return (
+    <div>
+      <Can action="create" subject="payments" empresaId={empresaId}>
+        <button>Crear Pago</button>
+      </Can>
+      
+      <Can action="view" subject="dashboard" empresaId={empresaId}>
+        <Dashboard />
+      </Can>
+    </div>
+  );
+};
+
+
+
+🎯 Uso Simplificado en APIs
+Ahora en cualquier API solo necesitas:
+
+typescript
+import { validatePermissions } from '../../../casl-module';
+
+export async function POST(req: NextRequest) {
+  const { hasAccess } = await validatePermissions('create', 'payments', req);
+  
+  if (!hasAccess) {
+    return NextResponse.json({ error: 'Sin permisos' }, { status: 403 });
+  }
+  
+  // Tu lógica aquí...
+}
+
