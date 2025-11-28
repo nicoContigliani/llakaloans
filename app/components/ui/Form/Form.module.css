@@ -1,0 +1,38 @@
+.form {
+  width: 100%;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.actions.center {
+  justify-content: center;
+}
+
+.actions.start {
+  justify-content: flex-start;
+}
+
+.actions.stacked {
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+  }
+  
+  .actions.stacked {
+    flex-direction: column;
+  }
+}

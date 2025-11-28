@@ -279,7 +279,7 @@ function AcceptInvitationContent() {
           // Redirigir después de 3 segundos
           setTimeout(() => {
             console.log('🔄 Redirigiendo a organización...');
-            router.push('/organization');
+            router.push('/homesistem');
           }, 3000);
         } else {
           setStatus('error');

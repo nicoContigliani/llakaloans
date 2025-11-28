@@ -1,0 +1,150 @@
+'use client';
+
+import React from 'react';
+import { useForm } from '../hooks/useForm';
+import { Form, FormGroup, FormActions } from './ui/Form/Form';
+import { Input } from './ui/Form/Input';
+import { Select } from './ui/Form/Select';
+import { Button } from './ui/Button/Button';
+
+// Definimos la interfaz de los valores del formulario
+interface ExampleFormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  country: string;
+  password: string;
+}
+
+export const ExampleForm: React.FC = () => {
+  const { 
+    values, 
+    errors, 
+    touched,
+    handleSubmit, 
+    setFieldValue,
+    setFieldTouched
+  } = useForm<ExampleFormValues>({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      country: '',
+      password: ''
+    },
+    onSubmit: (values) => {
+      console.log('Form submitted:', values);
+      alert('Form submitted successfully!');
+    },
+    validate: (values) => {
+      const errors: Record<string, string> = {};
+      
+      if (!values.firstName) {
+        errors.firstName = 'First name is required';
+      }
+      
+      if (!values.lastName) {
+        errors.lastName = 'Last name is required';
+      }
+      
+      if (!values.email) {
+        errors.email = 'Email is required';
+      } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+        errors.email = 'Email is invalid';
+      }
+      
+      if (!values.country) {
+        errors.country = 'Country is required';
+      }
+      
+      if (!values.password) {
+        errors.password = 'Password is required';
+      } else if (values.password.length < 6) {
+        errors.password = 'Password must be at least 6 characters';
+      }
+      
+      return errors;
+    }
+  });
+
+  const countryOptions = [
+    { value: '', label: 'Select a country' },
+    { value: 'us', label: 'United States' },
+    { value: 'ca', label: 'Canada' },
+    { value: 'uk', label: 'United Kingdom' },
+    { value: 'au', label: 'Australia' }
+  ];
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <FormGroup>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <Input
+            label="First Name"
+            value={values.firstName}
+            error={touched.firstName ? errors.firstName : undefined}
+            required
+            onChange={(e) => setFieldValue('firstName', e.target.value)}
+            onBlur={() => setFieldTouched('firstName', true)}
+          />
+          
+          <Input
+            label="Last Name"
+            value={values.lastName}
+            error={touched.lastName ? errors.lastName : undefined}
+            required
+            onChange={(e) => setFieldValue('lastName', e.target.value)}
+            onBlur={() => setFieldTouched('lastName', true)}
+          />
+        </div>
+      </FormGroup>
+
+      <FormGroup>
+        <Input
+          label="Email"
+          type="email"
+          value={values.email}
+          error={touched.email ? errors.email : undefined}
+          required
+          onChange={(e) => setFieldValue('email', e.target.value)}
+          onBlur={() => setFieldTouched('email', true)}
+          helperText="We'll never share your email with anyone else."
+        />
+      </FormGroup>
+
+      <FormGroup>
+        <Select
+          label="Country"
+          options={countryOptions}
+          value={values.country}
+          error={touched.country ? errors.country : undefined}
+          required
+          onChange={(e) => setFieldValue('country', e.target.value)}
+          onBlur={() => setFieldTouched('country', true)}
+        />
+      </FormGroup>
+
+      <FormGroup>
+        <Input
+          label="Password"
+          type="password"
+          value={values.password}
+          error={touched.password ? errors.password : undefined}
+          required
+          onChange={(e) => setFieldValue('password', e.target.value)}
+          onBlur={() => setFieldTouched('password', true)}
+          helperText="Must be at least 6 characters long."
+        />
+      </FormGroup>
+
+      <FormActions>
+        <Button type="button" variant="secondary">
+          Cancel
+        </Button>
+        <Button type="submit" variant="primary">
+          Submit
+        </Button>
+      </FormActions>
+    </Form>
+  );
+};

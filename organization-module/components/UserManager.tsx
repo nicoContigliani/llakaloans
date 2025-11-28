@@ -7,6 +7,7 @@ import { useUser } from '@clerk/nextjs';
 import { useRoles } from '../hooks/useRoles';
 import { permissionService } from '../services/permissionService';
 import { RoleName, UserWithRoles } from '../types/organization';
+import styles from './UserManager.module.css';
 
 interface UserManagerProps {
   companyId: string;
@@ -26,13 +27,13 @@ const ensureRoleNames = (roles: any[]): RoleName[] => {
 // Componentes memoizados para mejor performance
 const LoadingSpinner = memo<{ size?: 'sm' | 'md' | 'lg' }>(({ size = 'md' }) => {
   const sizeClass = {
-    sm: 'w-4 h-4 border-2',
-    md: 'w-6 h-6 border-2',
-    lg: 'w-8 h-8 border-3'
+    sm: styles.spinnerSm,
+    md: styles.spinnerMd,
+    lg: styles.spinnerLg
   }[size];
 
   return (
-    <div className={`border-gray-300 border-t-blue-600 rounded-full animate-spin ${sizeClass}`} />
+    <div className={`${styles.spinner} ${sizeClass}`} />
   );
 });
 LoadingSpinner.displayName = 'LoadingSpinner';
@@ -48,10 +49,10 @@ const Toast = memo<{
     return () => clearTimeout(timer);
   }, [duration, onClose]);
 
-  const styles = {
-    success: 'bg-green-50 border-green-200 text-green-800',
-    error: 'bg-red-50 border-red-200 text-red-800',
-    warning: 'bg-yellow-50 border-yellow-200 text-yellow-800'
+  const toastClass = {
+    success: styles.toastSuccess,
+    error: styles.toastError,
+    warning: styles.toastWarning
   }[type];
 
   const icons = {
@@ -61,13 +62,14 @@ const Toast = memo<{
   }[type];
 
   return (
-    <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg border ${styles} shadow-lg max-w-sm animate-in slide-in-from-right-8`}>
-      <div className="flex items-center gap-3">
-        <span className="text-lg">{icons}</span>
-        <p className="text-sm font-medium flex-1">{message}</p>
+    <div className={`${styles.toast} ${toastClass}`}>
+      <div className={styles.toastContent}>
+        <span>{icons}</span>
+        <p className={styles.toastMessage}>{message}</p>
         <button
           onClick={onClose}
-          className="text-gray-400 hover:text-gray-600 transition-colors text-lg font-bold"
+          className={styles.toastClose}
+          aria-label="Cerrar notificación"
         >
           ×
         </button>
@@ -81,26 +83,22 @@ const RoleBadge = memo<{
   role: RoleName;
   size?: 'sm' | 'md';
 }>(({ role, size = 'md' }) => {
-  const colors: Record<RoleName, string> = {
-    'toor': 'bg-red-600',
-    'owner': 'bg-purple-600',
-    'admin': 'bg-orange-500',
-    'user': 'bg-blue-500',
-    'guest': 'bg-gray-500'
+  const colorClass: Record<RoleName, string> = {
+    'toor': styles.roleToor,
+    'owner': styles.roleOwner,
+    'admin': styles.roleAdmin,
+    'user': styles.roleUser,
+    'guest': styles.roleGuest
   };
 
-  const sizeClasses = {
-    sm: 'px-2 py-1 text-xs',
-    md: 'px-3 py-1.5 text-sm'
+  const sizeClass = {
+    sm: styles.roleBadgeSm,
+    md: styles.roleBadgeMd
   }[size];
 
   return (
     <span
-      className={`
-        ${colors[role]} 
-        ${sizeClasses}
-        rounded-full text-white font-semibold capitalize inline-block
-      `}
+      className={`${styles.roleBadge} ${colorClass[role]} ${sizeClass}`}
     >
       {role}
     </span>
@@ -113,9 +111,9 @@ const UserAvatar = memo<{
   size?: 'sm' | 'md' | 'lg'
 }>(({ user, size = 'md' }) => {
   const sizeClass = {
-    sm: 'w-8 h-8 text-sm',
-    md: 'w-10 h-10 text-base',
-    lg: 'w-12 h-12 text-lg'
+    sm: styles.avatarSm,
+    md: styles.avatarMd,
+    lg: styles.avatarLg
   }[size];
 
   const getInitials = useCallback((user: UserWithRoles) => {
@@ -133,13 +131,13 @@ const UserAvatar = memo<{
   }, []);
 
   return (
-    <div className="flex items-center gap-3">
-      <div className={`${sizeClass} bg-blue-500 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0`}>
+    <div className={styles.userAvatar}>
+      <div className={`${styles.avatar} ${sizeClass}`}>
         {getInitials(user)}
       </div>
-      <div className="flex flex-col min-w-0">
-        <span className="font-semibold text-gray-900 text-sm truncate">{getName(user)}</span>
-        <span className="text-xs text-gray-500 truncate">{user.email}</span>
+      <div className={styles.userDetails}>
+        <span className={styles.userName}>{getName(user)}</span>
+        <span className={styles.userEmail}>{user.email}</span>
       </div>
     </div>
   );
@@ -205,26 +203,28 @@ const AddUserModal = memo<{
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal">
-        <div className="modal-header">
+    <div className={styles.modalOverlay}>
+      <div className={styles.modal}>
+        <div className={styles.modalHeader}>
           <div>
-            <h3>Agregar Usuario</h3>
-            <p className="modal-subtitle">Invita a un usuario a unirse a la empresa</p>
+            <h3 className={styles.modalTitle}>Agregar Usuario</h3>
+            <p className={styles.modalSubtitle}>Invita a un usuario a unirse a la empresa</p>
           </div>
           <button
             onClick={onClose}
             disabled={loading}
-            className="close-button"
+            className={styles.closeButton}
             aria-label="Cerrar modal"
           >
             ×
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="form">
-          <div className="form-group">
-            <label htmlFor="email">Email del usuario *</label>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label htmlFor="email" className={styles.formLabel}>
+              Email del usuario *
+            </label>
             <input
               id="email"
               type="email"
@@ -235,38 +235,54 @@ const AddUserModal = memo<{
                 setError('');
               }}
               disabled={loading}
-              className={error && !email ? 'error' : ''}
+              className={`${styles.formInput} ${error && !email ? styles.error : ''}`}
             />
+            <p className={styles.formHelp}>
+              El usuario recibirá una invitación por email para unirse a la empresa
+            </p>
           </div>
 
-          <div className="roles-selection">
-            <h4>Seleccionar Roles *</h4>
-            <div className="roles-list">
-              {availableRoles.map((role) => (
-                <label key={role._id} className="role-option">
-                  <input
-                    type="checkbox"
-                    checked={selectedRoleIds.includes(role._id)}
-                    onChange={() => toggleRole(role._id)}
-                    disabled={loading}
-                    className="role-checkbox"
-                  />
-                  <div className="role-info">
-                    <div className="role-name-container">
-                      <span className="role-name">{role.name}</span>
-                      <RoleBadge role={role.name} size="sm" />
+          <div className={styles.rolesSelection}>
+            <h4 className={styles.sectionTitle}>Seleccionar Roles *</h4>
+            <p className={styles.sectionDescription}>
+              Selecciona uno o más roles para asignar al usuario
+            </p>
+            
+            {availableRoles.length === 0 ? (
+              <div className={styles.noRoles}>
+                <p>No hay roles disponibles para asignar</p>
+                <p className={styles.noRolesHelp}>
+                  No tienes permisos para asignar roles o no hay roles configurados
+                </p>
+              </div>
+            ) : (
+              <div className={styles.rolesList}>
+                {availableRoles.map((role) => (
+                  <label key={role._id} className={styles.roleOption}>
+                    <input
+                      type="checkbox"
+                      checked={selectedRoleIds.includes(role._id)}
+                      onChange={() => toggleRole(role._id)}
+                      disabled={loading}
+                      className={styles.roleCheckbox}
+                    />
+                    <div className={styles.roleInfo}>
+                      <div className={styles.roleNameContainer}>
+                        <span className={styles.roleName}>{role.name}</span>
+                        <RoleBadge role={role.name} size="sm" />
+                      </div>
+                      <p className={styles.roleDescription}>{role.description}</p>
                     </div>
-                    <p className="role-description">{role.description}</p>
-                  </div>
-                </label>
-              ))}
-            </div>
+                  </label>
+                ))}
+              </div>
+            )}
           </div>
 
           {selectedRoleIds.length > 0 && (
-            <div className="selected-preview">
-              <h4>Roles a asignar:</h4>
-              <div className="selected-roles">
+            <div className={styles.selectedPreview}>
+              <h4 className={styles.sectionTitle}>Roles a asignar</h4>
+              <div className={styles.selectedRoles}>
                 {availableRoles
                   .filter(role => selectedRoleIds.includes(role._id))
                   .map(role => (
@@ -274,306 +290,37 @@ const AddUserModal = memo<{
                   ))
                 }
               </div>
+              <p className={styles.selectedHelp}>
+                El usuario recibirá permisos asociados a estos roles
+              </p>
             </div>
           )}
 
           {error && (
-            <div className="error-message">
+            <div className={styles.errorMessage}>
               {error}
             </div>
           )}
 
-          <div className="modal-actions">
+          <div className={styles.modalActions}>
             <button
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="btn-secondary"
+              className={styles.secondaryButton}
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={loading || !email || selectedRoleIds.length === 0}
-              className="btn-primary"
+              className={styles.primaryButton}
             >
               {loading ? <LoadingSpinner size="sm" /> : 'Enviar Invitación'}
             </button>
           </div>
         </form>
       </div>
-
-      <style jsx>{`
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.5);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
-          padding: 20px;
-        }
-
-        .modal {
-          background: white;
-          border-radius: 8px;
-          width: 100%;
-          max-width: 500px;
-          max-height: 90vh;
-          overflow: hidden;
-          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 20px;
-          border-bottom: 1px solid #e5e7eb;
-          background: #f8fafc;
-        }
-
-        .modal-header h3 {
-          margin: 0;
-          font-size: 18px;
-          font-weight: 600;
-          color: #111827;
-        }
-
-        .modal-subtitle {
-          margin: 4px 0 0 0;
-          font-size: 14px;
-          color: #6b7280;
-        }
-
-        .close-button {
-          background: none;
-          border: none;
-          font-size: 24px;
-          cursor: pointer;
-          color: #6b7280;
-          padding: 0;
-          width: 30px;
-          height: 30px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s;
-          border-radius: 4px;
-        }
-
-        .close-button:hover:not(:disabled) {
-          background: #f3f4f6;
-          color: #374151;
-        }
-
-        .close-button:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .form {
-          padding: 20px;
-          max-height: 60vh;
-          overflow-y: auto;
-        }
-
-        .form-group {
-          margin-bottom: 20px;
-        }
-
-        .form-group label {
-          display: block;
-          margin-bottom: 6px;
-          font-weight: 600;
-          color: #374151;
-          font-size: 14px;
-        }
-
-        .form-group input {
-          width: 100%;
-          padding: 10px 12px;
-          border: 1px solid #d1d5db;
-          border-radius: 6px;
-          font-size: 14px;
-          transition: all 0.2s;
-        }
-
-        .form-group input:focus {
-          outline: none;
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .form-group input:disabled {
-          background: #f9fafb;
-          color: #6b7280;
-          cursor: not-allowed;
-        }
-
-        .form-group input.error {
-          border-color: #dc3545;
-        }
-
-        .roles-selection {
-          margin-bottom: 20px;
-        }
-
-        .roles-selection h4 {
-          margin: 0 0 10px 0;
-          font-size: 14px;
-          font-weight: 600;
-          color: #374151;
-        }
-
-        .roles-list {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .role-option {
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
-          padding: 12px;
-          border: 1px solid #e5e7eb;
-          border-radius: 6px;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .role-option:hover {
-          border-color: #3b82f6;
-          background: #f8fafc;
-          transform: translateY(-1px);
-        }
-
-        .role-checkbox {
-          margin-top: 2px;
-          accent-color: #3b82f6;
-        }
-
-        .role-checkbox:disabled {
-          cursor: not-allowed;
-        }
-
-        .role-info {
-          flex: 1;
-        }
-
-        .role-name-container {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 4px;
-        }
-
-        .role-name {
-          font-weight: 600;
-          text-transform: capitalize;
-          color: #111827;
-        }
-
-        .role-description {
-          margin: 0;
-          font-size: 12px;
-          color: #6b7280;
-          line-height: 1.4;
-        }
-
-        .selected-preview {
-          padding: 15px;
-          background: #f0f9ff;
-          border-radius: 6px;
-          border: 1px solid #bae6fd;
-          margin-bottom: 15px;
-        }
-
-        .selected-preview h4 {
-          margin: 0 0 10px 0;
-          font-size: 14px;
-          font-weight: 600;
-          color: #0369a1;
-        }
-
-        .selected-roles {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-
-        .error-message {
-          background: #fef2f2;
-          color: #dc2626;
-          padding: 12px;
-          border-radius: 6px;
-          border: 1px solid #fecaca;
-          font-size: 14px;
-          margin-top: 10px;
-        }
-
-        .modal-actions {
-          display: flex;
-          gap: 10px;
-          justify-content: flex-end;
-          padding: 20px 0 0 0;
-        }
-
-        .btn-primary,
-        .btn-secondary {
-          padding: 10px 20px;
-          border-radius: 6px;
-          font-size: 14px;
-          font-weight: 500;
-          cursor: pointer;
-          border: none;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          transition: all 0.2s;
-          min-width: 120px;
-          justify-content: center;
-        }
-
-        .btn-primary {
-          background: #3b82f6;
-          color: white;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-          background: #2563eb;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
-        }
-
-        .btn-primary:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-          transform: none;
-          box-shadow: none;
-        }
-
-        .btn-secondary {
-          background: white;
-          color: #374151;
-          border: 1px solid #d1d5db;
-        }
-
-        .btn-secondary:hover:not(:disabled) {
-          background: #f9fafb;
-          border-color: #9ca3af;
-        }
-
-        .btn-secondary:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-      `}</style>
     </div>
   );
 });
@@ -634,68 +381,81 @@ const EditUserRolesModal = memo<{
   const currentRoles = user.companies[0]?.roles || [];
 
   return (
-    <div className="modal-overlay">
-      <div className="modal">
-        <div className="modal-header">
+    <div className={styles.modalOverlay}>
+      <div className={styles.modal}>
+        <div className={styles.modalHeader}>
           <div>
-            <h3>Editar Roles de Usuario</h3>
-            <p className="modal-subtitle">Modifica los permisos del usuario</p>
+            <h3 className={styles.modalTitle}>Editar Roles de Usuario</h3>
+            <p className={styles.modalSubtitle}>Modifica los permisos del usuario</p>
           </div>
           <button
             onClick={handleClose}
             disabled={loading}
-            className="close-button"
+            className={styles.closeButton}
             aria-label="Cerrar modal"
           >
             ×
           </button>
         </div>
 
-        <div className="modal-content">
-          <div className="user-info">
+        <div className={styles.modalContent}>
+          <div className={styles.userInfo}>
             <UserAvatar user={user} size="md" />
           </div>
 
-          <div className="current-roles-section">
-            <h4>Roles Actuales:</h4>
-            <div className="current-roles-list">
+          <div className={styles.currentRolesSection}>
+            <h4 className={styles.sectionTitle}>Roles Actuales</h4>
+            <div className={styles.currentRolesList}>
               {currentRoles.map(role => (
                 <RoleBadge key={role} role={role} size="sm" />
               ))}
               {currentRoles.length === 0 && (
-                <span className="no-roles">Sin roles asignados</span>
+                <span className={styles.noRoles}>Sin roles asignados</span>
               )}
             </div>
           </div>
 
-          <div className="roles-selection">
-            <h4>Seleccionar Roles:</h4>
-            <div className="roles-list">
-              {availableRoles.map((role) => (
-                <label key={role._id} className="role-option">
-                  <input
-                    type="checkbox"
-                    checked={selectedRoleIds.includes(role._id)}
-                    onChange={() => toggleRole(role._id)}
-                    disabled={loading}
-                    className="role-checkbox"
-                  />
-                  <div className="role-info">
-                    <div className="role-name-container">
-                      <span className="role-name">{role.name}</span>
-                      <RoleBadge role={role.name} size="sm" />
+          <div className={styles.rolesSelection}>
+            <h4 className={styles.sectionTitle}>Seleccionar Roles</h4>
+            <p className={styles.sectionDescription}>
+              Selecciona los roles que deseas asignar al usuario
+            </p>
+            
+            {availableRoles.length === 0 ? (
+              <div className={styles.noRoles}>
+                <p>No hay roles disponibles para asignar</p>
+                <p className={styles.noRolesHelp}>
+                  No tienes permisos para modificar roles o no hay roles configurados
+                </p>
+              </div>
+            ) : (
+              <div className={styles.rolesList}>
+                {availableRoles.map((role) => (
+                  <label key={role._id} className={styles.roleOption}>
+                    <input
+                      type="checkbox"
+                      checked={selectedRoleIds.includes(role._id)}
+                      onChange={() => toggleRole(role._id)}
+                      disabled={loading}
+                      className={styles.roleCheckbox}
+                    />
+                    <div className={styles.roleInfo}>
+                      <div className={styles.roleNameContainer}>
+                        <span className={styles.roleName}>{role.name}</span>
+                        <RoleBadge role={role.name} size="sm" />
+                      </div>
+                      <p className={styles.roleDescription}>{role.description}</p>
                     </div>
-                    <p className="role-description">{role.description}</p>
-                  </div>
-                </label>
-              ))}
-            </div>
+                  </label>
+                ))}
+              </div>
+            )}
           </div>
 
           {selectedRoleIds.length > 0 && (
-            <div className="selected-preview">
-              <h4>Roles a asignar:</h4>
-              <div className="selected-roles">
+            <div className={styles.selectedPreview}>
+              <h4 className={styles.sectionTitle}>Roles a asignar</h4>
+              <div className={styles.selectedRoles}>
                 {availableRoles
                   .filter(role => selectedRoleIds.includes(role._id))
                   .map(role => (
@@ -703,22 +463,25 @@ const EditUserRolesModal = memo<{
                   ))
                 }
               </div>
+              <p className={styles.selectedHelp}>
+                Estos roles reemplazarán los roles actuales del usuario
+              </p>
             </div>
           )}
 
           {saveError && (
-            <div className="error-message">
+            <div className={styles.errorMessage}>
               {saveError}
             </div>
           )}
         </div>
 
-        <div className="modal-actions">
+        <div className={styles.modalActions}>
           <button
             type="button"
             onClick={handleClose}
             disabled={loading}
-            className="btn-secondary"
+            className={styles.secondaryButton}
           >
             Cancelar
           </button>
@@ -726,267 +489,12 @@ const EditUserRolesModal = memo<{
             type="button"
             onClick={handleSave}
             disabled={loading || selectedRoleIds.length === 0}
-            className="btn-primary"
+            className={styles.primaryButton}
           >
             {loading ? <LoadingSpinner size="sm" /> : 'Guardar Cambios'}
           </button>
         </div>
       </div>
-
-      <style jsx>{`
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.5);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
-          padding: 20px;
-        }
-
-        .modal {
-          background: white;
-          border-radius: 8px;
-          width: 100%;
-          max-width: 500px;
-          max-height: 90vh;
-          overflow: hidden;
-          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 20px;
-          border-bottom: 1px solid #e5e7eb;
-          background: #f8fafc;
-        }
-
-        .modal-header h3 {
-          margin: 0;
-          font-size: 18px;
-          font-weight: 600;
-          color: #111827;
-        }
-
-        .modal-subtitle {
-          margin: 4px 0 0 0;
-          font-size: 14px;
-          color: #6b7280;
-        }
-
-        .close-button {
-          background: none;
-          border: none;
-          font-size: 24px;
-          cursor: pointer;
-          color: #6b7280;
-          padding: 0;
-          width: 30px;
-          height: 30px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s;
-          border-radius: 4px;
-        }
-
-        .close-button:hover:not(:disabled) {
-          background: #f3f4f6;
-          color: #374151;
-        }
-
-        .close-button:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .modal-content {
-          padding: 20px;
-          max-height: 60vh;
-          overflow-y: auto;
-        }
-
-        .user-info {
-          margin-bottom: 20px;
-          padding: 15px;
-          background: #f8fafc;
-          border-radius: 6px;
-          border: 1px solid #e5e7eb;
-        }
-
-        .current-roles-section,
-        .roles-selection {
-          margin-bottom: 20px;
-        }
-
-        .current-roles-section h4,
-        .roles-selection h4 {
-          margin: 0 0 10px 0;
-          font-size: 14px;
-          font-weight: 600;
-          color: #374151;
-        }
-
-        .current-roles-list,
-        .selected-roles {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 15px;
-        }
-
-        .no-roles {
-          color: #6b7280;
-          font-style: italic;
-          font-size: 14px;
-        }
-
-        .roles-list {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .role-option {
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
-          padding: 12px;
-          border: 1px solid #e5e7eb;
-          border-radius: 6px;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .role-option:hover {
-          border-color: #3b82f6;
-          background: #f8fafc;
-          transform: translateY(-1px);
-        }
-
-        .role-checkbox {
-          margin-top: 2px;
-          accent-color: #3b82f6;
-        }
-
-        .role-checkbox:disabled {
-          cursor: not-allowed;
-        }
-
-        .role-info {
-          flex: 1;
-        }
-
-        .role-name-container {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 4px;
-        }
-
-        .role-name {
-          font-weight: 600;
-          text-transform: capitalize;
-          color: #111827;
-        }
-
-        .role-description {
-          margin: 0;
-          font-size: 12px;
-          color: #6b7280;
-          line-height: 1.4;
-        }
-
-        .selected-preview {
-          padding: 15px;
-          background: #f0f9ff;
-          border-radius: 6px;
-          border: 1px solid #bae6fd;
-          margin-bottom: 15px;
-        }
-
-        .selected-preview h4 {
-          margin: 0 0 10px 0;
-          font-size: 14px;
-          font-weight: 600;
-          color: #0369a1;
-        }
-
-        .error-message {
-          background: #fef2f2;
-          color: #dc2626;
-          padding: 12px;
-          border-radius: 6px;
-          border: 1px solid #fecaca;
-          font-size: 14px;
-          margin-top: 10px;
-        }
-
-        .modal-actions {
-          display: flex;
-          gap: 10px;
-          justify-content: flex-end;
-          padding: 20px;
-          border-top: 1px solid #e5e7eb;
-          background: #f9fafb;
-        }
-
-        .btn-primary,
-        .btn-secondary {
-          padding: 10px 20px;
-          border-radius: 6px;
-          font-size: 14px;
-          font-weight: 500;
-          cursor: pointer;
-          border: none;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          transition: all 0.2s;
-          min-width: 120px;
-          justify-content: center;
-        }
-
-        .btn-primary {
-          background: #3b82f6;
-          color: white;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-          background: #2563eb;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
-        }
-
-        .btn-primary:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-          transform: none;
-          box-shadow: none;
-        }
-
-        .btn-secondary {
-          background: white;
-          color: #374151;
-          border: 1px solid #d1d5db;
-        }
-
-        .btn-secondary:hover:not(:disabled) {
-          background: #f9fafb;
-          border-color: #9ca3af;
-        }
-
-        .btn-secondary:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-      `}</style>
     </div>
   );
 });
@@ -1023,13 +531,15 @@ const UserRow = memo<{
   const isCurrentUser = currentUserId === user.user_id;
 
   return (
-    <tr className="user-row">
-      <td className="user-info-cell">
-        <UserAvatar user={user} size="sm" />
-        {isCurrentUser && <span className="current-user-badge">(Tú)</span>}
+    <tr className={styles.userRow}>
+      <td className={styles.userInfoCell}>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <UserAvatar user={user} size="sm" />
+          {isCurrentUser && <span className={styles.currentUserBadge}>(Tú)</span>}
+        </div>
       </td>
-      <td className="roles-cell">
-        <div className="roles-container">
+      <td className={styles.rolesCell}>
+        <div className={styles.rolesContainer}>
           {userRoles.map(role => (
             <RoleBadge key={role} role={role} size="sm" />
           ))}
@@ -1037,7 +547,7 @@ const UserRow = memo<{
             <button
               onClick={() => onEditRoles(user)}
               disabled={actionLoading?.startsWith('roles-')}
-              className="edit-button"
+              className={styles.editButton}
               title="Editar roles"
             >
               {actionLoading === `roles-${user.user_id}` ? <LoadingSpinner size="sm" /> : '✏️'}
@@ -1045,28 +555,28 @@ const UserRow = memo<{
           )}
         </div>
       </td>
-      <td className="status-cell">
+      <td className={styles.statusCell}>
         <select
           value={userStatus}
           onChange={(e) => onStatusChange(user.user_id, e.target.value as 'active' | 'suspended')}
           disabled={!canModify || actionLoading?.startsWith('status-')}
-          className={`status-select ${userStatus}`}
+          className={`${styles.statusSelect} ${userStatus === 'active' ? styles.active : styles.suspended}`}
         >
           <option value="active">🟢 Activo</option>
           <option value="suspended">🔴 Suspendido</option>
         </select>
         {actionLoading === `status-${user.user_id}` && (
-          <div className="action-loading">
+          <div className={styles.actionLoading}>
             <LoadingSpinner size="sm" />
           </div>
         )}
       </td>
       {canManageUsers && (
-        <td className="actions-cell">
+        <td className={styles.actionsCell}>
           <button
             onClick={() => onDeleteUser(user.user_id)}
             disabled={!canModify || actionLoading?.startsWith('delete-') || isCurrentUser}
-            className="delete-button"
+            className={styles.deleteButton}
             title={isCurrentUser ? 'No puedes eliminarte a ti mismo' : 'Eliminar usuario'}
           >
             {actionLoading === `delete-${user.user_id}` ? <LoadingSpinner size="sm" /> : '🗑️'}
@@ -1097,7 +607,7 @@ const UserManager: React.FC<UserManagerProps> = ({ companyId, companyName }) => 
     setToast({ message, type });
   }, []);
 
-  // Roles disponibles para asignar - MOVIDO ARRIBA de las funciones que lo usan
+  // Roles disponibles para asignar
   const availableRoles = useMemo(() => {
     // Si no hay roles del usuario actual, mostrar todos los roles excepto toor
     const rolesToShow = currentUserRoles.length > 0
@@ -1108,7 +618,7 @@ const UserManager: React.FC<UserManagerProps> = ({ companyId, companyName }) => 
     return rolesToShow;
   }, [roles, currentUserRoles]);
 
-  // Handler para agregar usuario - CORREGIDO: usa availableRoles que ahora está definido antes
+  // Handler para agregar usuario
   const handleAddUser = useCallback(async (email: string, roleIds: string[]) => {
     if (!companyId || !companyName) {
       showToast('Error: No se encontró la empresa o su nombre', 'error');
@@ -1127,8 +637,8 @@ const UserManager: React.FC<UserManagerProps> = ({ companyId, companyName }) => 
       const result = await addUser({
         email,
         role_ids: roleIds,
-        role_name: roleName, // ← Enviar role_name también para compatibilidad
-        company_name: companyName // ← Asegurar que se envíe
+        role_name: roleName,
+        company_name: companyName
       });
 
       if (result.success) {
@@ -1434,15 +944,15 @@ const UserManager: React.FC<UserManagerProps> = ({ companyId, companyName }) => 
 
   if (initialLoad) {
     return (
-      <div className="loading-container">
+      <div className={styles.loadingContainer}>
         <LoadingSpinner size="lg" />
-        <p>Cargando gestión de usuarios...</p>
+        <p className={styles.loadingText}>Cargando gestión de usuarios...</p>
       </div>
     );
   }
 
   return (
-    <div className="user-manager">
+    <div className={styles.container}>
       {/* Toast Notifications */}
       {toast && (
         <Toast
@@ -1453,25 +963,25 @@ const UserManager: React.FC<UserManagerProps> = ({ companyId, companyName }) => 
       )}
 
       {/* Header */}
-      <div className="header">
+      <div className={styles.header}>
         <div>
-          <h2>Gestión de Usuarios</h2>
-          <p>Administra los usuarios de <strong>{companyName}</strong></p>
-          <div className="debug-info">
-            <small>User ID: {currentUser?.id}</small>
-            <small>Company ID: {companyId}</small>
-            <small>Tus roles: {currentUserRoles.join(', ') || 'No asignados'}</small>
+          <h2 className={styles.title}>Gestión de Usuarios</h2>
+          <p className={styles.subtitle}>Administra los usuarios de <strong>{companyName}</strong></p>
+          <div className={styles.debugInfo}>
+            <small className={styles.debugText}>User ID: {currentUser?.id}</small>
+            <small className={styles.debugText}>Company ID: {companyId}</small>
+            <small className={styles.debugText}>Tus roles: {currentUserRoles.join(', ') || 'No asignados'}</small>
           </div>
         </div>
-        <div className="user-info">
-          <div className="permissions-info">
+        <div className={styles.userInfo}>
+          <div className={styles.permissionsInfo}>
             <p><strong>Permisos de gestión:</strong> {canManageUsers ? '✅ Activos' : '❌ Limitados'}</p>
           </div>
-          <div className="action-buttons">
+          <div className={styles.actionButtons}>
             {canManageUsers && (
               <button 
                 onClick={handleAddUserClick}
-                className="primary-button"
+                className={styles.primaryButton}
                 disabled={loading}
               >
                 + Agregar Usuario
@@ -1480,7 +990,7 @@ const UserManager: React.FC<UserManagerProps> = ({ companyId, companyName }) => 
             <button 
               onClick={handleRefresh} 
               disabled={loading}
-              className="refresh-button"
+              className={styles.refreshButton}
             >
               {loading ? <LoadingSpinner size="sm" /> : '🔄 Actualizar'}
             </button>
@@ -1489,39 +999,39 @@ const UserManager: React.FC<UserManagerProps> = ({ companyId, companyName }) => 
       </div>
 
       {/* Búsqueda */}
-      <div className="search-section">
-        <div className="search-input-container">
+      <div className={styles.searchSection}>
+        <div className={styles.searchInputContainer}>
           <input
             type="text"
             placeholder="Buscar usuarios por nombre o email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
+            className={styles.searchInput}
           />
           {searchTerm && (
             <button
               onClick={() => setSearchTerm('')}
-              className="clear-search"
+              className={styles.clearSearch}
               aria-label="Limpiar búsqueda"
             >
               ×
             </button>
           )}
         </div>
-        <div className="user-count">
+        <div className={styles.userCount}>
           {filteredUsers.length} usuario{filteredUsers.length !== 1 ? 's' : ''} encontrado{filteredUsers.length !== 1 ? 's' : ''}
         </div>
       </div>
 
       {/* Tabla de usuarios */}
-      <div className="table-container">
+      <div className={styles.tableContainer}>
         {filteredUsers.length === 0 ? (
-          <div className="empty-state">
+          <div className={styles.emptyState}>
             {searchTerm ? 'No se encontraron usuarios que coincidan con la búsqueda' : 'No hay usuarios en la empresa'}
             {canManageUsers && !searchTerm && (
               <button 
                 onClick={handleAddUserClick}
-                className="primary-button"
+                className={styles.primaryButton}
                 style={{ marginTop: '16px' }}
               >
                 + Agregar Primer Usuario
@@ -1529,7 +1039,7 @@ const UserManager: React.FC<UserManagerProps> = ({ companyId, companyName }) => 
             )}
           </div>
         ) : (
-          <table className="users-table">
+          <table className={styles.usersTable}>
             <thead>
               <tr>
                 <th>Usuario</th>
@@ -1582,436 +1092,6 @@ const UserManager: React.FC<UserManagerProps> = ({ companyId, companyName }) => 
         availableRoles={availableRoles}
         loading={actionLoading?.startsWith('roles-') || false}
       />
-
-      <style jsx>{`
-        .user-manager {
-          padding: 20px;
-          max-width: 1200px;
-          margin: 0 auto;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 30px;
-          padding: 24px;
-          background: white;
-          border-radius: 12px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-          border: 1px solid #e5e7eb;
-        }
-
-        .header h2 {
-          margin: 0 0 8px 0;
-          color: #111827;
-          font-size: 24px;
-          font-weight: 700;
-        }
-
-        .header p {
-          margin: 0;
-          color: #6b7280;
-          font-size: 14px;
-        }
-
-        .debug-info {
-          margin-top: 12px;
-          padding: 8px;
-          background: #f3f4f6;
-          border-radius: 6px;
-          border-left: 3px solid #3b82f6;
-        }
-
-        .debug-info small {
-          display: block;
-          color: #4b5563;
-          font-size: 11px;
-          font-family: 'Monaco', 'Consolas', monospace;
-          line-height: 1.4;
-        }
-
-        .user-info {
-          text-align: right;
-          font-size: 14px;
-          min-width: 250px;
-        }
-
-        .permissions-info p {
-          margin: 0 0 12px 0;
-          padding: 8px 12px;
-          background: #f8fafc;
-          border-radius: 6px;
-          border: 1px solid #e2e8f0;
-          font-size: 13px;
-        }
-
-        .action-buttons {
-          display: flex;
-          gap: 8px;
-          justify-content: flex-end;
-        }
-
-        .primary-button {
-          background: #3b82f6;
-          color: white;
-          border: none;
-          padding: 8px 16px;
-          border-radius: 6px;
-          cursor: pointer;
-          font-size: 13px;
-          font-weight: 500;
-          transition: all 0.2s;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          min-width: 120px;
-          justify-content: center;
-        }
-
-        .primary-button:hover:not(:disabled) {
-          background: #2563eb;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
-        }
-
-        .primary-button:disabled {
-          background: #9ca3af;
-          cursor: not-allowed;
-          transform: none;
-          box-shadow: none;
-        }
-
-        .refresh-button {
-          background: #f3f4f6;
-          color: #374151;
-          border: 1px solid #d1d5db;
-          padding: 8px 16px;
-          border-radius: 6px;
-          cursor: pointer;
-          font-size: 13px;
-          font-weight: 500;
-          transition: all 0.2s;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          min-width: 100px;
-          justify-content: center;
-        }
-
-        .refresh-button:hover:not(:disabled) {
-          background: #e5e7eb;
-          border-color: #9ca3af;
-        }
-
-        .refresh-button:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-          transform: none;
-          box-shadow: none;
-        }
-
-        .search-section {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 24px;
-          gap: 20px;
-        }
-
-        .search-input-container {
-          position: relative;
-          flex: 1;
-          max-width: 400px;
-        }
-
-        .search-input {
-          width: 100%;
-          padding: 12px 40px 12px 16px;
-          border: 1px solid #d1d5db;
-          border-radius: 8px;
-          font-size: 14px;
-          transition: all 0.2s;
-          background: white;
-        }
-
-        .search-input:focus {
-          outline: none;
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .clear-search {
-          position: absolute;
-          right: 12px;
-          top: 50%;
-          transform: translateY(-50%);
-          background: none;
-          border: none;
-          font-size: 18px;
-          cursor: pointer;
-          color: #6b7280;
-          padding: 4px;
-          border-radius: 4px;
-          transition: all 0.2s;
-        }
-
-        .clear-search:hover {
-          background: #f3f4f6;
-          color: #374151;
-        }
-
-        .user-count {
-          background: #f8fafc;
-          padding: 8px 16px;
-          border-radius: 20px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #4b5563;
-          border: 1px solid #e5e7eb;
-          white-space: nowrap;
-        }
-
-        .table-container {
-          background: white;
-          border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-          border: 1px solid #e5e7eb;
-        }
-
-        .users-table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-
-        .users-table th {
-          background: #f9fafb;
-          padding: 16px 20px;
-          text-align: left;
-          font-weight: 600;
-          color: #374151;
-          border-bottom: 1px solid #e5e7eb;
-          font-size: 14px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .users-table td {
-          padding: 20px;
-          border-bottom: 1px solid #f3f4f6;
-          vertical-align: middle;
-        }
-
-        .user-row:hover {
-          background: #f9fafb;
-        }
-
-        .user-row:last-child td {
-          border-bottom: none;
-        }
-
-        .user-info-cell {
-          min-width: 250px;
-          position: relative;
-        }
-
-        .current-user-badge {
-          position: absolute;
-          top: -8px;
-          right: -8px;
-          background: #3b82f6;
-          color: white;
-          padding: 2px 8px;
-          border-radius: 12px;
-          font-size: 10px;
-          font-weight: 600;
-          box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
-        }
-
-        .roles-container {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
-        .edit-button {
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 6px;
-          border-radius: 6px;
-          opacity: 0.7;
-          transition: all 0.2s;
-          font-size: 14px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 28px;
-          height: 28px;
-        }
-
-        .edit-button:hover:not(:disabled) {
-          opacity: 1;
-          background: #f3f4f6;
-          transform: scale(1.1);
-        }
-
-        .edit-button:disabled {
-          opacity: 0.3;
-          cursor: not-allowed;
-        }
-
-        .status-cell {
-          position: relative;
-          min-width: 140px;
-        }
-
-        .status-select {
-          padding: 8px 12px;
-          border-radius: 8px;
-          border: 1px solid #d1d5db;
-          font-size: 13px;
-          cursor: pointer;
-          transition: all 0.2s;
-          min-width: 120px;
-          font-weight: 500;
-          appearance: none;
-          background: white;
-        }
-
-        .status-select.active {
-          background: #d1fae5;
-          color: #065f46;
-          border-color: #a7f3d0;
-        }
-
-        .status-select.suspended {
-          background: #fee2e2;
-          color: #991b1b;
-          border-color: #fecaca;
-        }
-
-        .status-select:focus {
-          outline: none;
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .status-select:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-          background: #f3f4f6;
-        }
-
-        .action-loading {
-          position: absolute;
-          right: 8px;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-
-        .actions-cell {
-          text-align: center;
-          width: 80px;
-        }
-
-        .delete-button {
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 8px;
-          border-radius: 6px;
-          opacity: 0.7;
-          transition: all 0.2s;
-          font-size: 16px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 36px;
-          height: 36px;
-          margin: 0 auto;
-        }
-
-        .delete-button:hover:not(:disabled) {
-          opacity: 1;
-          background: #fee2e2;
-          transform: scale(1.1);
-        }
-
-        .delete-button:disabled {
-          opacity: 0.3;
-          cursor: not-allowed;
-        }
-
-        .empty-state {
-          padding: 60px 20px;
-          text-align: center;
-          color: #6b7280;
-          font-size: 16px;
-          background: #f9fafb;
-        }
-
-        .loading-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 60px 20px;
-          gap: 16px;
-          color: #6b7280;
-        }
-
-        .loading-container p {
-          margin: 0;
-          font-size: 16px;
-        }
-
-        @media (max-width: 768px) {
-          .user-manager {
-            padding: 16px;
-          }
-
-          .header {
-            flex-direction: column;
-            gap: 16px;
-            padding: 20px;
-          }
-
-          .user-info {
-            text-align: left;
-            min-width: auto;
-            width: 100%;
-          }
-
-          .action-buttons {
-            justify-content: flex-start;
-          }
-
-          .search-section {
-            flex-direction: column;
-            align-items: stretch;
-          }
-
-          .search-input-container {
-            max-width: none;
-          }
-
-          .users-table {
-            display: block;
-            overflow-x: auto;
-          }
-
-          .user-info-cell {
-            min-width: 200px;
-          }
-
-          .status-cell {
-            min-width: 120px;
-          }
-        }
-      `}</style>
     </div>
   );
 };

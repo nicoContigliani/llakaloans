@@ -1,0 +1,282 @@
+/* components/Steps/Steps.module.css */
+.stepsContainer {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Orientación horizontal */
+.stepsHorizontal {
+  flex-direction: row;
+  align-items: center;
+}
+
+.stepsHorizontal .step {
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  min-height: auto;
+}
+
+.stepsHorizontal .stepContent {
+  align-items: center;
+}
+
+/* Orientación vertical */
+.stepsVertical {
+  flex-direction: column;
+  gap: 0;
+}
+
+.stepsVertical .step {
+  flex-direction: row;
+  text-align: left;
+  gap: 12px;
+  min-height: 56px;
+  width: 100%;
+}
+
+.stepsVertical .stepContent {
+  align-items: flex-start;
+  padding: 4px 0;
+}
+
+/* Step base */
+.step {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.step:hover:not(.stepDisabled) {
+  background-color: #f8fafc;
+  transform: translateY(-1px);
+}
+
+.step:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.stepDisabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.stepAccessible {
+  cursor: pointer;
+}
+
+.stepCurrent {
+  background-color: #eff6ff;
+}
+
+/* Step icon */
+.stepIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.stepIconCurrent {
+  background-color: #3b82f6;
+  color: white;
+  border: 2px solid #3b82f6;
+}
+
+.stepIconCompleted {
+  background-color: #10b981;
+  color: white;
+  border: 2px solid #10b981;
+}
+
+.stepIconAccessible {
+  background-color: white;
+  color: #6b7280;
+  border: 2px solid #d1d5db;
+}
+
+.stepIconDisabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  border: 2px solid #e5e7eb;
+}
+
+/* Step content */
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.stepLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  line-height: 1.4;
+}
+
+.stepDescription {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+/* Step connector */
+.stepConnector {
+  flex: 1;
+  background-color: #e5e7eb;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.stepsHorizontal .stepConnector {
+  height: 2px;
+  min-width: 20px;
+  margin: 0 8px;
+}
+
+.stepsVertical .stepConnector {
+  width: 2px;
+  min-height: 20px;
+  margin: 4px 0 4px 15px;
+}
+
+.stepConnectorCompleted {
+  background-color: #10b981;
+}
+
+/* Variante compact */
+.stepsCompact .step {
+  padding: 4px;
+}
+
+.stepsCompact .stepIcon {
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+}
+
+.stepsCompact .stepLabel {
+  font-size: 13px;
+}
+
+.stepsCompact.stepsVertical .step {
+  min-height: 40px;
+}
+
+.stepsCompact.stepsVertical .stepConnector {
+  margin-left: 11px;
+}
+
+/* Estados para step disabled */
+.stepDisabled .stepLabel {
+  color: #9ca3af;
+}
+
+.stepDisabled .stepDescription {
+  color: #d1d5db;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .stepsHorizontal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .stepsHorizontal .step {
+    flex-direction: row;
+    text-align: left;
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .stepsHorizontal .stepContent {
+    align-items: flex-start;
+  }
+
+  .stepsHorizontal .stepConnector {
+    width: 2px;
+    height: 20px;
+    margin: 2px 0 2px 15px;
+  }
+
+  .step {
+    padding: 6px;
+  }
+
+  .stepIcon {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+
+  .stepLabel {
+    font-size: 13px;
+  }
+
+  .stepDescription {
+    font-size: 11px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .step:hover:not(.stepDisabled) {
+    background-color: #374151;
+  }
+
+  .stepCurrent {
+    background-color: #1e3a8a;
+  }
+
+  .stepIconAccessible {
+    background-color: #374151;
+    color: #d1d5db;
+    border-color: #4b5563;
+  }
+
+  .stepIconDisabled {
+    background-color: #4b5563;
+    color: #6b7280;
+    border-color: #6b7280;
+  }
+
+  .stepLabel {
+    color: #f9fafb;
+  }
+
+  .stepDescription {
+    color: #d1d5db;
+  }
+
+  .stepConnector {
+    background-color: #4b5563;
+  }
+
+  .stepDisabled .stepLabel {
+    color: #6b7280;
+  }
+
+  .stepDisabled .stepDescription {
+    color: #4b5563;
+  }
+}

@@ -3,15 +3,22 @@
 import { Navbar } from '@/clerk-modules/components/Navbar/Navbar';
 import { ClerkProviderWrapper } from '../clerk-modules/components/auth/ClerkProviderWrapper';
 import './globals.css';
+import { Theme } from "@radix-ui/themes";
 
 // Este componente se asegura de que Clerk solo se renderice después de la hidratación
 function ClientOnlyClerk({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProviderWrapper>
-      {children}
-    </ClerkProviderWrapper>
+    <Theme>
+      <ClerkProviderWrapper>
+        {children}
+      </ClerkProviderWrapper>
+    </Theme>
   );
 }
+
+
+
+
 
 export default function RootLayout({
   children,

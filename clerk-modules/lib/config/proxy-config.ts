@@ -15,6 +15,7 @@ export const proxyConfig = {
       '/dashboard',
       '/user-profile',
       '/api/protected',
+      '/api/user(.*)',
     ],
     publicRoutes: [
       '/',
